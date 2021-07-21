@@ -47,7 +47,19 @@ public interface AdvertiseMapper {
 
     //查询广告分类
     @Select("select * from advertisetype")
+    @Results({
+            @Result(id = true,column = "id",property = "id"),
+            @Result(column = "name",property = "name"),
+            @Result(column = "text",property = "text"),
+            @Result(column = "description",property = "description"),
+            @Result(column = "status",property = "status"),
+            @Result(column = "time",property = "time"),
+            @Result(column = "id",property = "number",one = @One(select = "com.yefeng.springtest.Admin.dao.AdvertiseMapper.findAdAmountByTypeId",fetchType = FetchType.EAGER))
+    })
     public List<AdvertiseType> findAllAdType();
+
+    @Select("select count(*) from advertise where typeid = #{tid}")
+    public Integer findAdAmountByTypeId(@Param("tid")Integer tid);
 
 //10.根据类型名找到广告id
 

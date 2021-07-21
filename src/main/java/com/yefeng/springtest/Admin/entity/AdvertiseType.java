@@ -8,16 +8,36 @@ public class AdvertiseType implements Serializable {
     private String text;
     private  String description;
     private int status;
+    private String time;
+    private int number;
 
     @Override
     public String toString() {
         return "AdvertiseType{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", text='" + text + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", text='" + text + '\'' +
+                ", time='" + time + '\'' +
+                ", number=" + number +
                 '}';
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getId() {
