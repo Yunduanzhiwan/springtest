@@ -219,8 +219,9 @@ function link_operating(name,title){
 </script>
 	</head>
 	<body>
-		<div sec:authorize="isAuthenticated()" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_ADMIN'}">
-			<script>
+		<div sec:authorize="isAuthenticated()" th:if="${ #authorization.authentication.principal.loginRid !='ROLE_ADMIN'}">
+			<script type="text/javascript" >
+				alert("你不是管理员没有权限登录，点击确定去登录吧！")
 				$(location).attr("href","/login")
 			</script>
 		</div>
