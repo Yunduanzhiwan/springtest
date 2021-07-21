@@ -41,12 +41,12 @@
     <script type="text/javascript" src="../Widget/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 
 
-    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
-    <script src="../layui/layui.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+        <script src="../layui/layui.js" charset="utf-8"></script>
 
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
-    <script src="../js/vue.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
+        <script src="../js/vue.min.js"></script>
 
     <title>广告管理</title>
 
@@ -138,7 +138,7 @@
                 <tr>
                     <th width="25"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
                     <th width="80">ID</th>
-                    <th>排序</th>
+<!--                    <th>排序</th>-->
                     <th width="100">分类</th>
                     <th width="220px">图片</th>
                     <th width="150px">尺寸（大小）</th>
@@ -152,11 +152,11 @@
                 <tr th:each="ad : ${Ads_list}">
                     <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
                     <td th:text="${ad.id}"></td>
-                    <td><input name="" type="text" style=" width:50px" placeholder="" th:placeholder="${ad.id}" /></td>
+<!--                    <td><input name="" type="text" style=" width:50px" placeholder="" th:placeholder="${ad.id}" /></td>-->
                     <td th:text="${ad.type}"></td>
                     <td><span class="ad_img"><img th:src="@{'../img/'+${ad.picPath}}" width="100%" height="100%" /></span></td>
                     <td th:text="${ad.sizex}+'x'+${ad.sizey}">尺寸</td>
-                    <td><a th:href="@{${ad.link}}" target="_blank">链接</a></td>
+                    <td><a th:href="@{${ad.link}}" target="_blank" th:text="${ad.link}">链接</a></td>
                     <td th:text="${ad.time}">时间</td>
 
 
@@ -166,7 +166,7 @@
                         '<a style="text-decoration:none" class="btn btn-xs " th:if="${ad.status}==0" onClick="member_start(this,'10001')" href="javascript:;" title="显示"><i class="fa fa-close bigger-120"></i></a>
 <!--                        <a onClick="member_start(this,'10001')" href="javascript:;" th:if="${ad.status}==0" title="启用" class="btn btn-xs btn-success"><i class="fa fa-check  bigger-120"></i></a>-->
                         <a onClick="member_stop(this,'10001')" href="javascript:;" th:if="${ad.status}==1" title="停用" class="btn btn-xs btn-success"><i class="fa fa-check  bigger-120"></i></a>
-                        <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;" class="btn btn-xs btn-info"><i
+                        <a title="编辑" onclick="member_edit('编辑','member-add','4','','510')" href="javascript:;" class="btn btn-xs btn-info"><i
                                 class="fa fa-edit bigger-120"></i></a>
                         <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="btn btn-xs btn-warning"><i class="fa fa-trash  bigger-120"></i></a>
                     </td>
