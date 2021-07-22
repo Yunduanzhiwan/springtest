@@ -1,6 +1,7 @@
 package com.yefeng.springtest.Client.service;
 
 import com.yefeng.springtest.Client.entity.*;
+import com.yefeng.springtest.util.PathUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,8 @@ public interface ProductService {
 
     public Integer addProduct(ProductBrief productBrief, ProductDetail productDetail);
     public void addProductTX(ProductBrief productBrief, ProductDetail productDetail);
+
+    public Integer removeProduct(Integer[] ids);
 
     public void updateProductTX(ProductBrief productBrief, ProductDetail productDetail);
     public Integer updateProduct(ProductBrief productBrief, ProductDetail productDetail);

@@ -162,6 +162,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Integer removeProduct(Integer[] ids) {
+        try {
+            productMapper.deleteProduct(ids);
+            return CODE_OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CODE_PRODUCT_REMOVE_FAIL;
+        }
+    }
+
+    @Override
     @Transactional
     public void updateProductTX(ProductBrief productBrief, ProductDetail productDetail) {
         productMapper.updateProductDetail(productDetail);

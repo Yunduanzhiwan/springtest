@@ -5,10 +5,12 @@ import com.yefeng.springtest.Admin.entity.Advertise;
 import com.yefeng.springtest.Admin.entity.AdvertiseType;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.util.List;
 @Mapper
+@Repository("AdminAdvertiseMapper")
 public interface AdvertiseMapper {
     //获取全部广告
     @Select("select * from advertise as ad\n" +

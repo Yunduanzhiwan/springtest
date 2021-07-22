@@ -9,6 +9,15 @@ public class MallUser {
     private String time;
     private int status;
     private String mail;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public String toString() {
@@ -21,6 +30,7 @@ public class MallUser {
                 ", time='" + time + '\'' +
                 ", status=" + status +
                 ", mail='" + mail + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 

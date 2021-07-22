@@ -38,13 +38,13 @@
         <a class="nav-item nav-link" href="javascript:void(0)"
            sec:authorize="hasRole('BUYER')" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_BUYER'}" th:href="@{/myorder(curPage=1,role='BUYER')}">我的淘宝</a>
         <a class="nav-item nav-link" href="javascript:void(0)"
-           sec:authorize="hasRole('SELLER')" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_SELLER'}" th:href="@{/myorder(curPage=1,role='SELLER')}">我的淘宝</a>
+           sec:authorize="hasRole('SELLER')" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_SELLER'}" th:href="@{/myorderF}">我的淘宝</a>
         <a class="nav-item nav-link" href="javascript:void(0)"
            th:href="@{/productlist(curPage=1)}">商品分类</a>
         <a class="nav-item nav-link" href="javascript:void(0)"
            sec:authorize="isAnonymous()" th:href="@{/login}">购物车</a>
         <a class="nav-item nav-link" href="javascript:void(0)"
-                   sec:authorize="isAuthenticated()" th:href="@{/shoppingcar}" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_BUYER'}">购物车</a>
+                 sec:authorize="hasRole('BUYER')" th:href="@{/shoppingcar}" >购物车</a>
         <!--           sec:authorize="isAuthenticated()" th:href="@{/shoppingcar}" th:if="${#authorization.expression('principal.loginRid ==='ROLE_BUYER'')}">购物车</a>-->
 
         <a class="nav-item nav-link" href="javascript:void(0)"
@@ -83,12 +83,21 @@
 
 
     <!--搜索框 -->
-    <div class="input-group mb-5">
-        <input type="text" class="form-control" placeholder="输入关键字" aria-label="serch" aria-describedby="button-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜索</button>
+    <div class="input-group mt-3">
+        <input type="text" class="form-control" placeholder="请输入关键字"
+               v-bind:class="{'is-invalid':isInvalid}" v-model="keyWord" @input="textChange">
+        <div class="input-group-append ml-2">
+            <button class="btn btn-outline-secondary" type="button"
+                    @click="searchProduct">搜索
+            </button>
         </div>
     </div>
+    <!--    <div class="input-group mb-5">-->
+<!--        <input type="text" class="form-control" placeholder="输入关键字" aria-label="serch" aria-describedby="button-addon2">-->
+<!--        <div class="input-group-append">-->
+<!--            <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜索</button>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- 轮播图 -->
     <div id='demo' class="carousel slide container" data-ride="carousel" style="max-width: 600px;">
@@ -102,15 +111,13 @@
 
         <!-- 轮播图片 -->
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="img/3.jpg">
+<!--            <div class="carousel-item active">-->
+<!--                <img src="img/3.jpg">-->
+<!--            </div>-->
+            <div th:each="ad,loopStatus: ${advertiseList}" th:class="${loopStatus.index}==0?'carousel-item active':'carousel-item'">
+                <img th:src="@{'/img/'+${ad.picPath}}">
             </div>
-            <div class="carousel-item">
-                <img src="img/2.jpg">
-            </div>
-            <div class="carousel-item">
-                <img src="../static/admin/1.jpg">
-            </div>
+
         </div>
 
         <!-- 左右切换按钮 -->
@@ -134,7 +141,7 @@
             <div class="p3 d-flex algin-items-center border mt-3 ">
                 <div class="bg-danger" style="width: 16px; height: 32px;"></div>
                 <div class="h4 ml-3" th:text="${productType.type}"></div>
-                <a class="h4 ml-auto" href="#">More</a>
+                <a class="h4 ml-auto" th:href="@{/productlist(typeId=${productType.id})}">More</a>
             </div>
 
             <!--具体商品 -->
@@ -185,9 +192,26 @@
     var loginApp = new Vue({
         el: "#container",
         data: {
+            keyWord:"",
+            isInvalid:false,
             username: "1111",
-            shopp:[[${hotSellProducts}]]
+            shopp:[[${hotSellProducts}]],
+            advertiseList:[[${advertiseList}]]
         },
+        methods:{
+            searchProduct: function (event) {
+                if (this.keyWord == null || this.keyWord == '') {
+                    this.isInvalid = true
+                } else {
+                    $(location).attr('href', 'productlist?keyWord=' + this.keyWord +
+                        '&curPage=1')
+                }
+            },textChange: function (event) {
+                if (this.keyWord != '') {
+                    this.isInvalid = false
+                }
+            },
+        }
     })
 </script>
 </body>

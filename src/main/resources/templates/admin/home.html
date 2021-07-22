@@ -27,16 +27,17 @@
 
     <link rel="stylesheet" href="../layui/css/layui.css" media="all">
     <script src="../layui/layui.js" charset="utf-8"></script>
-    <script src="../js/vue.min.js"></script>
-
+    <script src="../js/vue.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2" type="text/javascript"></script>
 
     <title>广告管理</title>
 </head>
 <body>
 <div class="page-content clearfix" id="mcontent">
-    <div class="alert alert-block alert-success">
+    <div class="alert alert-block alert-success" id="ment">
         <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-        <i class="icon-ok green"></i>欢迎使用<strong class="green">后台管理系统<small>(v1.2)</small></strong>,你本次登录时间为2016年7月12日13时34分，登录IP:192.168.1.110.
+        <i class="icon-ok green"></i>欢迎使用<strong class="green">后台管理系统<small>(v1.2){{time}}</small></strong>
+        你本次登录时间为:{{time}}，登录IP:{{ipAddress}}
     </div>
     <div class="state-overview clearfix" >
         <div class="col-lg-3 col-sm-6">
@@ -218,10 +219,41 @@
     </div>
 
 </div>
-</body>
-</html>
+<script>
+    function currentTime(){
+        var d=new Date(),str='';
+        str+=d.getFullYear()+'年';
+        str+=d.getMonth() + 1+'月';
+        str+=d.getDate()+'日';
+        str+=d.getHours()+'时';
+        str+=d.getMinutes()+'分';
+        str+= d.getSeconds()+'秒';
+        return str;
+    }
+    var main=new Vue({
+       el:'#ment',
+       data:{
+           ipAddress:"127.0.0.1",
+           address:"",
+           time:"2016年7月12日13时34分"
+       } ,
+       created:function () {
+            alert("created")
+           ipAddress:returnCitySN["cip"];
+           address:returnCitySN["cname"];
+           time:currentTime();
+           console.log("created")
+           console.log(ipAddress)
+           console.log(address)
+           console.log(time)
+       }
+    });
+
+</script>
+
 
 <script th:inline="javascript">
+
     var mcontent = new Vue({
         el: '#mcontent',
         data: {
@@ -233,13 +265,24 @@
             totalTransaction: [[${totalTransaction}]],
             productAmount: [[${productAmount}]],
             p_Online: [[${p_Online}]],
-            p_Offline: [[${p_Offline}]]
-        },
-        methods: {}
+            p_Offline: [[${p_Offline}]],
 
-    })
+        },
+        methods: {
+
+        },
+
+    });
+
+
+    console.log(ipAddress)
+    console.log(address)
+    console.log(time)
+
+
 
 </script>
+
 <script type="text/javascript" th:inline="none">
     //面包屑返回值
     var index = parent.layer.getFrameIndex(window.name);
@@ -272,3 +315,6 @@
 
 
 </script>
+</body>
+</html>
+

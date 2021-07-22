@@ -7,6 +7,7 @@ import com.yefeng.springtest.Admin.service.MallProductService;
 import com.yefeng.springtest.Admin.service.MallService;
 import com.yefeng.springtest.Admin.service.MallUserService;
 
+import com.yefeng.springtest.util.UserDetailUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,15 @@ import java.util.List;
 public class MainController1 {
     private final static String ADMIN_PATH = "admin";
 
+    @RequestMapping("")
+    public String Main() {
+        String rid = UserDetailUtil.getUser().getLoginRid();
+        if (rid.equals("ROLE_ADMIN")) {
+            return "/admin/index";
+        }
+
+        return "/login";
+    }
 
     @Resource
     private AdvertiseService advertiseService;
@@ -50,12 +60,23 @@ public class MainController1 {
 
     @RequestMapping("login")
     public String login() {
+
         return "admin/login";
     }
 
+
     @RequestMapping("index")
     public String index() {
-        return "admin/index";
+
+            String rid = UserDetailUtil.getUser().getLoginRid();
+//            if (rid.equals("ROLE_ADMIN")) {
+                return "admin/index";
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return "../login";
+
     }
 
     @Resource
@@ -80,23 +101,22 @@ public class MainController1 {
         Long p_Offline = mallService.getProducAmounttByStatus(0);
 
 
-        view.addObject("mallUserCount",mallUserCount);
-        view.addObject("orderCount",orderCount);
-        view.addObject("o_pay",o_pay);
-        view.addObject("o_ship",o_ship);
-        view.addObject("o_success",o_success);
+        view.addObject("mallUserCount", mallUserCount);
+        view.addObject("orderCount", orderCount);
+        view.addObject("o_pay", o_pay);
+        view.addObject("o_ship", o_ship);
+        view.addObject("o_success", o_success);
 
 
-        view.addObject("totalTransaction",totalTransaction);
+        view.addObject("totalTransaction", totalTransaction);
 
-        view.addObject("productAmount",productAmount);
-        view.addObject("p_Online",p_Online);
-        view.addObject("p_Offline",p_Offline);
+        view.addObject("productAmount", productAmount);
+        view.addObject("p_Online", p_Online);
+        view.addObject("p_Offline", p_Offline);
 
 
         return view;
     }
-
 
 
     @Resource
@@ -105,14 +125,14 @@ public class MainController1 {
     @RequestMapping("products_List")
     public ModelAndView products_List(Integer typeId) {
         ModelAndView view = new ModelAndView("admin/products_List");
-        List<MallProduct> productList=null;
-        if(typeId!=null&&typeId>0){
-            productList= productService.getAllProductByTypeId(typeId);
-        }else {
-            productList=productService.getAllProduct();
+        List<MallProduct> productList = null;
+        if (typeId != null && typeId > 0) {
+            productList = productService.getAllProductByTypeId(typeId);
+        } else {
+            productList = productService.getAllProduct();
         }
-        view.addObject("productList",productList);
-        view.addObject("productAmount",productList.size());
+        view.addObject("productList", productList);
+        view.addObject("productAmount", productList.size());
 
 
 //        System.out.println(view.toString());
@@ -135,6 +155,7 @@ public class MainController1 {
     public String productCategoryadd() {
         return "admin/product-category-add";
     }
+
     @RequestMapping("member-add")
     public String memberAdd() {
         return "admin/member-add";
@@ -157,8 +178,9 @@ public class MainController1 {
      */
     @Resource
     private MallUserService mallUserService;
+
     @RequestMapping("user_list")
-    public ModelAndView user_list(Integer curPage,  Integer rowsPerPage) {
+    public ModelAndView user_list(Integer curPage, Integer rowsPerPage) {
         ModelAndView view = new ModelAndView("admin/user_list");
 
         Long mallUserCount = mallService.getMallUserCount();
@@ -169,13 +191,13 @@ public class MainController1 {
 
             List<MallUser> userList = mallUserService.getUserByPage(pager);
 
-            view.addObject("userAmount",mallUserCount);
-            view.addObject("userList",userList);
-        }else{
+            view.addObject("userAmount", mallUserCount);
+            view.addObject("userList", userList);
+        } else {
             List<MallUser> userList = mallUserService.getAllUserByPage();
 
-            view.addObject("userAmount",mallUserCount);
-            view.addObject("userList",userList);
+            view.addObject("userAmount", mallUserCount);
+            view.addObject("userList", userList);
         }
 
         return view;

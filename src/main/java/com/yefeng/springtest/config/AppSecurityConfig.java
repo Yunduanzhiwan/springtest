@@ -65,19 +65,21 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/**")
-                .permitAll();
-//                .antMatchers("/publicHtml/**","/daohang","/foot","/productlist","/orderConfirm","/product/**","/productdetail","/html2","/login","/index","/register","/user/login","/user/register","/css/**","/js/**","/img/**")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/user/login")
-//                .usernameParameter(USERNAME)
-//                .passwordParameter(PASSWORD)
-//                .successHandler(successHandler)
-//                .failureHandler(failHandler);
+//                .antMatchers("/**")
+//                .permitAll();
+                .antMatchers("/admin/login","/publicHtml/**","/daohang","/foot","/productlist","/orderConfirm","/product/**","/productdetail","/html2","/login","/index","/register","/user/login","/user/register","/css/**","/js/**","/img/**","/bootstrap-select/**","/**.js","/**.css")
+                .permitAll()
+//                .antMatchers("/admin/**")
+//                .hasRole("ADMIN")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/user/login")
+                .usernameParameter(USERNAME)
+                .passwordParameter(PASSWORD)
+                .successHandler(successHandler)
+                .failureHandler(failHandler);
     }
 }

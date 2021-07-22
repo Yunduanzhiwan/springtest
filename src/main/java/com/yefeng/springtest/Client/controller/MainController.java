@@ -1,6 +1,7 @@
 package com.yefeng.springtest.Client.controller;
 
 import com.yefeng.springtest.Client.entity.*;
+import com.yefeng.springtest.Client.service.AdvertiseService;
 import com.yefeng.springtest.Client.service.OrderService;
 import com.yefeng.springtest.Client.service.ProductService;
 import com.yefeng.springtest.Client.service.ShoppingCarService;
@@ -49,11 +50,18 @@ public class MainController {
         return "foot";
     }
 
+
+    @Resource
+    private AdvertiseService advertiseService;
+
     @RequestMapping(value = {"/index", ""})
     public ModelAndView index() {
         ModelAndView view = new ModelAndView();
         List<ProductType> hotSellProducts = productService.getHotSellProducts();
+        List<Advertise> advertiseList = advertiseService.getAllAdsByTypeId(1);
+
         view.addObject("hotSellProducts", hotSellProducts);
+        view.addObject("advertiseList", advertiseList);
         view.setViewName("index");
         System.out.println(hotSellProducts);
         return view;

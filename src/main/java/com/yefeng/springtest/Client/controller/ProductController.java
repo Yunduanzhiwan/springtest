@@ -6,11 +6,13 @@ import com.yefeng.springtest.Client.entity.ProductBrief;
 import com.yefeng.springtest.Client.entity.ProductDetail;
 import com.yefeng.springtest.Client.service.ProductDetailService;
 import com.yefeng.springtest.Client.service.ProductService;
+import com.yefeng.springtest.util.UserDetailUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,5 +134,28 @@ public class ProductController {
             map.put(ERROR_MSSAGE, "修改商品失败");
         }
         return map;
+    }
+
+    @RequestMapping("/remove")
+    public Map<String ,Object> remove(@NotBlank  Integer id){
+        HashMap<String, Object> map = new HashMap<>();
+        if (id==null||id<=0){
+            map.put(ERROR_CODE, CODE_PRODUCT_REMOVE_FAIL);
+            map.put(ERROR_MSSAGE, "删除商品失败");
+        }
+
+        String loginRid = UserDetailUtil.getUser().getLoginRid();
+        Integer[] ids = new Integer[1];
+        ids[0]=id;
+        Integer Code = productService.removeProduct(ids);
+        if(loginRid.equals("ROLE_SELLER")||loginRid.equals("ROLE_ADMIN")){
+
+            map.put(ERROR_CODE, Code);
+            map.put(ERROR_MSSAGE, "删除商品成功");
+        }else {
+            map.put(ERROR_CODE, Code);
+            map.put(ERROR_MSSAGE, "删除商品失败");
+        }
+        return  map;
     }
 }

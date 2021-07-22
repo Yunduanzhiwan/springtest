@@ -122,7 +122,7 @@ public interface ProductMapper {
 
 
 
-    @Insert("INSERT INTO product VALUES (NULL, #{productName}, #{price}, #{quantity}, #{detailId}, " +
+    @Insert("INSERT INTO product(name,price,quantity,detailId,typeId,sellerId,picPath) VALUES( #{productName}, #{price}, #{quantity}, #{detailId}, " +
             "#{typeId}, #{sellerId}, #{picPath})")
     public void insertProduct(ProductBrief product);
 
@@ -158,4 +158,12 @@ public interface ProductMapper {
             "producer=#{producer}, producerAddress=#{producerAddress}, tel=#{producerTel}, description=#{description}\n" +
             " where id=#{id}")
     public void updateProductDetail(ProductDetail productDetail);
+
+    @Delete("<script>" +
+            "delete from product where id in" +
+            "<foreach collection='ids' item='id' index='index' open='(' separator=',' close=')'>" +
+            "#{id}" +
+            "</foreach>" +
+            "</script>")
+    public void deleteProduct(@Param("ids") Integer[] ids);
 }

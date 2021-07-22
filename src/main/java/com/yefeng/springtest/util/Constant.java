@@ -33,6 +33,7 @@ public class Constant {
 
     //添加广告
     public static final Integer AD_ADD_FAIL=-12;
+    public static final Integer AD_ADD_TYPE_FAIL=-13;
 
     private static String CURR = "";
 

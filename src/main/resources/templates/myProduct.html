@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.js"></script>
+    <script src="./layui/layui.js"></script>
     <title>我的商品</title>
 </head>
 <body>
@@ -46,6 +49,24 @@
     </div>
 </nav>
 
+
+<script type="text/javascript">
+    function removeProduct(id) {
+        alert("id="+id);
+        layer.confirm('确认要删除吗？',function(index){
+            $.get("/product/remove", {
+                id:id
+            },function (data) {
+                    if(data.ERROR_CODE==1){
+                        layer.msg('已删除!',{icon: 5,time:1000});
+                    }else{
+                        layer.msg('删除,失败，请重试!',{icon: 5,time:1000});
+                    }
+            });
+
+        });
+    }
+</script>
 
 <div id="mContainer" class="container">
 
@@ -105,6 +126,9 @@
                 <div class="col text-center">
                     <a class="text-dark" :href="'/productUpdate?productId=' + product.id+'&curPage='+curPage">
                         修改</a>
+<!--                    <button @click="'removeProduct('+product.id+')'">删除</button>-->
+                    <button class="btn btn-outline-secondary btn-sm" type="button"
+                            @click="removeProduct(product.id)">删除</button>
                 </div>
             </div>
         </div>
@@ -262,6 +286,22 @@
                 }
             },
             methods: {
+                removeProduct:function(id){
+                    console.log(id)
+                    layer.confirm('确认要删除吗？',function(index){
+                        $.get("/product/remove", {
+                            id:id
+                        },function (data) {
+                            if(data.ERROR_CODE==1){
+                                layer.msg('已删除!',{icon: 5,time:1000});
+                                $(location).attr("href","/myproduct/?curPage=1")
+                            }else{
+                                layer.msg('删除,失败，请重试!',{icon: 5,time:1000});
+                            }
+                        });
+
+                    });
+                },
                 searchProduct: function (event) {
                     if (this.keyWord == null || this.keyWord == '') {
                         this.isInvalid = true
