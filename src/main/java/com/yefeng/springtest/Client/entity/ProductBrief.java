@@ -3,7 +3,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
-public class ProductBrief implements Serializable {
+public class ProductBrief  {
     private Long id;
 
     private String productName;

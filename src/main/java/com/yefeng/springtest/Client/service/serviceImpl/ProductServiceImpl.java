@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -127,31 +128,39 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Integer updateProduct(ProductBrief productBrief, ProductDetail productDetail) {
+        String oldPicPath=productDetail.getPicPath();
         MultipartFile briefFile = productBrief.getFile();
-        //转换文件
-        String name = UploadUtils.getUUIDName(briefFile.getOriginalFilename());
-        String path = IMAGE_SAVE_PATH + name;
-        File file = new File(path);
-        //父目录
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
-        try {
+        if(briefFile!=null){
+            //转换文件
+            String name = UploadUtils.getUUIDName(briefFile.getOriginalFilename());
+            String path = IMAGE_SAVE_PATH + name;
+            File file = new File(path);
+            //父目录
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
 
-            productBrief.getFile().transferTo(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return CODE_STORE_IMG_FILE_FAIL;
+            productBrief.setPicPath(name);
+            try {
+                productBrief.getFile().transferTo(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("没有收到文件，或文件错误，将使用原来的图片");
+                productBrief.setPicPath(oldPicPath);
+            }
 
+        }else {
+
+            productBrief.setPicPath(oldPicPath);
         }
-        productBrief.setPicPath(name);
+
 
         //调用事务更新方法
         try {
             productService.updateProductTX(productBrief, productDetail);
         } catch (Exception e) {
             e.printStackTrace();
-            return CODE_ADD_PRODUCT_TX_FAIL;
+            return CODE_UPDATE_PRODUCT_TX_FAIL;
         }
         return CODE_OK;
     }

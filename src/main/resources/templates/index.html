@@ -38,7 +38,7 @@
         <a class="nav-item nav-link" href="javascript:void(0)"
            sec:authorize="hasRole('BUYER')" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_BUYER'}" th:href="@{/myorder(curPage=1,role='BUYER')}">我的淘宝</a>
         <a class="nav-item nav-link" href="javascript:void(0)"
-           sec:authorize="hasRole('SELLER')" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_SELLER'}" th:href="@{/myorderF}">我的淘宝</a>
+           sec:authorize="hasRole('SELLER')" th:if="${ #authorization.authentication.principal.loginRid =='ROLE_SELLER'}" th:href="@{/myorder(curPage=1,role='SELLER')}">我的淘宝</a>
         <a class="nav-item nav-link" href="javascript:void(0)"
            th:href="@{/productlist(curPage=1)}">商品分类</a>
         <a class="nav-item nav-link" href="javascript:void(0)"

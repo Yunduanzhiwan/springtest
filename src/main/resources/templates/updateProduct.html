@@ -165,6 +165,7 @@
 						detailId:[[${detailId}]],
 						productName: [[${productName}]],
 						price: [[${price}]],
+						picPath: [[${picPath}]],
 						quantity: [[${quantity}]],
 						file: null,
 						typeId: [[${typeId}]],
@@ -185,11 +186,15 @@
 
 							var formData = new FormData()
 							formData.append('productId', this.productId)
+							formData.append('picPath', this.picPath)
 							formData.append('detailId', this.detailId)
 							formData.append('productName', this.productName)
 							formData.append('price', this.price)
 							formData.append('quantity', this.quantity)
-							formData.append('file', this.file)
+							if(this.file!=null){
+
+								formData.append('file', this.file)
+							}
 							formData.append('typeId', this.typeId)
 							formData.append('fullName', this.fullName)
 							formData.append('brandName', this.brandName)

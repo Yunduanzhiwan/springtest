@@ -44,6 +44,7 @@ public class Constant {
     public static final String IMAGE_SAVE_PATH = CURR + "\\" + "target\\classes\\static\\img\\";
     public static final Integer CODE_STORE_IMG_FILE_FAIL = -10;
     public static final Integer CODE_ADD_PRODUCT_TX_FAIL = -11;
+    public static final Integer CODE_UPDATE_PRODUCT_TX_FAIL = -11;
 
     public static final String ROLE_BUYER = "BUYER";
     public static final String ROLE_SELLER = "SELLER";

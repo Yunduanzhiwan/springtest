@@ -265,6 +265,7 @@ public class MainController {
         ProductDetail detail = productService.findProductDetailByProductId(productId);
 
         view.addObject("productId",productId);
+        view.addObject("picPath",detail.getPicPath());
         view.addObject("detailId",detail.getId());
         view.addObject("productName",detail.getProductName());
         view.addObject("price",detail.getPrice());
